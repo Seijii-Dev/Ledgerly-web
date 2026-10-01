@@ -329,7 +329,7 @@ export function ApkProvider({ children }: { children: ReactNode }) {
   // Sync with GitHub Releases
   const syncWithGitHubReleases = async (): Promise<{ success: boolean; message: string }> => {
     try {
-      const repos = ["Ledgerly"];
+      const repos = ["Ledgerly-web"];
       for (const repo of repos) {
         const ghRes = await fetch(`https://api.github.com/repos/Seijii-Dev/${repo}/releases/latest`);
         if (ghRes.ok) {
