@@ -37,9 +37,24 @@ const STATIC_REPOSITORY_APK = "downloads/Ledgerly-app-release.apk";
 async function detectStaticRepositoryApk(): Promise<ApkRelease | null> {
   try {
     const downloadUrl = resolveAssetUrl(STATIC_REPOSITORY_APK);
-    const response = await fetch(downloadUrl, { method: "HEAD", cache: "no-store" });
-    if (!response.ok) return null;
-    const fileSizeBytes = Number(response.headers.get("content-length") || 0);
+    // Netlify's SPA fallback can return index.html with a 200 status for a
+    // missing file. Read only the first bytes and require the APK ZIP signature
+    // before treating the static path as a real APK.
+    const response = await fetch(downloadUrl, {
+      headers: { Range: "bytes=0-3" },
+      cache: "no-store",
+    });
+    if (!response.ok || !response.body) return null;
+    const reader = response.body.getReader();
+    const firstChunk = await reader.read();
+    await reader.cancel();
+    const bytes = firstChunk.value;
+    if (!bytes || bytes.length < 4 || bytes[0] !== 0x50 || bytes[1] !== 0x4b || bytes[2] !== 0x03 || bytes[3] !== 0x04) {
+      return null;
+    }
+    const contentRange = response.headers.get("content-range") || "";
+    const rangeMatch = contentRange.match(/\/(\d+)$/);
+    const fileSizeBytes = Number(rangeMatch?.[1] || response.headers.get("content-length") || 0);
     return {
       isPublished: true,
       version: "1.0.0",
