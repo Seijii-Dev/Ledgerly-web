@@ -144,7 +144,7 @@ export function ApkProvider({ children }: { children: ReactNode }) {
 
       // API unavailable: retain the existing browser-only fallback for static
       // previews, but never present it as a global publication.
-      if (localMeta?.isPublished) {
+      if (!serverRelease && localMeta?.isPublished) {
         const downloadUrl = cachedBlob
           ? URL.createObjectURL(cachedBlob)
           : localMeta.downloadUrl && !localMeta.downloadUrl.startsWith("blob:")
