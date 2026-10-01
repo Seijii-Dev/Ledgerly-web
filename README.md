@@ -275,6 +275,16 @@ The website has two distinct layers:
 - **Unpublish:** `DELETE /api/apk` removes the active APK and clears the release metadata.
 - **Browser fallback:** IndexedDB/localStorage are only a local preview fallback when the API cannot be reached. They are not treated as global publication state.
 
+### Repository-hosted APK workflow
+
+For Vercel or Netlify, commit the APK at exactly:
+
+```text
+public/downloads/Ledgerly-app-release.apk
+```
+
+After the site is rebuilt, the public download UI automatically detects this file and uses it as the active APK. Replace that repository file with a newer build and redeploy to publish the replacement. This static workflow does not calculate a version or SHA-256 automatically; use the Node API workflow when runtime metadata and server-side replacement are required.
+
 ### Deployment limitation
 
 `npm run start` requires a Node process with a **persistent writable filesystem**. APK binaries are stored in `public/downloads/` and release metadata in `public/release.json`; the server also syncs them to `dist/` when a build exists. Vercel and Netlify static deployments can serve a checked-in APK, but their static output cannot accept runtime uploads or persist/delete files from browser requests. For global admin upload/replace/delete, deploy the Node server (or replace the file layer with an external object store/database) and keep the process storage persistent.

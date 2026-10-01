@@ -32,6 +32,29 @@ function resolveAssetUrl(path: string): string {
   return base.endsWith("/") ? `${base}${cleanPath}` : `${base}/${cleanPath}`;
 }
 
+const STATIC_REPOSITORY_APK = "downloads/Ledgerly-app-release.apk";
+
+async function detectStaticRepositoryApk(): Promise<ApkRelease | null> {
+  try {
+    const downloadUrl = resolveAssetUrl(STATIC_REPOSITORY_APK);
+    const response = await fetch(downloadUrl, { method: "HEAD", cache: "no-store" });
+    if (!response.ok) return null;
+    const fileSizeBytes = Number(response.headers.get("content-length") || 0);
+    return {
+      isPublished: true,
+      version: "1.0.0",
+      fileName: "Ledgerly-app-release.apk",
+      downloadUrl,
+      fileSize: fileSizeBytes > 0 ? `${(fileSizeBytes / (1024 * 1024)).toFixed(1)} MB` : "Available",
+      sha256Hash: "",
+      updatedAt: "",
+      isCustomUpload: false,
+    };
+  } catch {
+    return null;
+  }
+}
+
 export function ApkProvider({ children }: { children: ReactNode }) {
   const [currentApk, setCurrentApk] = useState<ApkRelease | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -105,7 +128,10 @@ export function ApkProvider({ children }: { children: ReactNode }) {
             isCustomUpload: false,
           });
         } else {
-          setCurrentApk(null);
+          // Static Vercel/Netlify deployments cannot accept runtime writes, but
+          // they can serve an APK committed at public/downloads/.
+          const repositoryApk = await detectStaticRepositoryApk();
+          setCurrentApk(repositoryApk);
         }
         setIsLocalDraft(false);
         setIsLoading(false);
