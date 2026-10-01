@@ -275,6 +275,19 @@ The website has two distinct layers:
 - **Unpublish:** `DELETE /api/apk` removes the active APK and clears the release metadata.
 - **Browser fallback:** IndexedDB/localStorage are only a local preview fallback when the API cannot be reached. They are not treated as global publication state.
 
+### GitHub Release APK workflow
+
+You can publish the APK without uploading it to the repository files:
+
+1. Open the repository's **Releases** page.
+2. Create a release with a tag such as `v1.0.0`.
+3. Attach an APK asset, for example `Ledgerly-app-release.apk`.
+4. Publish the release.
+
+The website automatically checks the latest public release at `Seijii-Dev/Ledgerly-web`, finds its first `.apk` asset, and updates the public download button using GitHub's public release-asset URL. Site visitors do not need a GitHub account or sign-in. The browser button is on your website; GitHub only hosts the public binary asset.
+
+When you publish a newer release tag with another APK, the website detects that latest release after reload/redeployment and uses the new asset.
+
 ### Repository-hosted APK workflow
 
 For Vercel or Netlify, commit the APK at exactly:

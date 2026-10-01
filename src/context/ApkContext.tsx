@@ -131,11 +131,15 @@ export function ApkProvider({ children }: { children: ReactNode }) {
           // Static Vercel/Netlify deployments cannot accept runtime writes, but
           // they can serve an APK committed at public/downloads/.
           const repositoryApk = await detectStaticRepositoryApk();
-          setCurrentApk(repositoryApk);
+          if (repositoryApk) {
+            setCurrentApk(repositoryApk);
+            setIsLocalDraft(false);
+            setIsLoading(false);
+            return;
+          }
         }
         setIsLocalDraft(false);
         setIsLoading(false);
-        return;
       }
 
       // API unavailable: retain the existing browser-only fallback for static
@@ -156,9 +160,9 @@ export function ApkProvider({ children }: { children: ReactNode }) {
 
       // Case D: Fallback to GitHub Releases scan
       try {
-        const repos = ["Ledgerly"];
+        const repos = ["Ledgerly-web"];
         for (const repo of repos) {
-          const ghRes = await fetch(`https://api.github.com/repos/Seijixinghe-dev/${repo}/releases/latest`);
+          const ghRes = await fetch(`https://api.github.com/repos/Seijii-Dev/${repo}/releases/latest`);
           if (ghRes.ok) {
             const release = await ghRes.json();
             const apkAsset = release.assets?.find((a: { name: string; browser_download_url: string; size: number }) =>
@@ -327,7 +331,7 @@ export function ApkProvider({ children }: { children: ReactNode }) {
     try {
       const repos = ["Ledgerly"];
       for (const repo of repos) {
-        const ghRes = await fetch(`https://api.github.com/repos/Seijixinghe-dev/${repo}/releases/latest`);
+        const ghRes = await fetch(`https://api.github.com/repos/Seijii-Dev/${repo}/releases/latest`);
         if (ghRes.ok) {
           const release = await ghRes.json();
           const apkAsset = release.assets?.find((a: { name: string; browser_download_url: string; size: number }) =>
