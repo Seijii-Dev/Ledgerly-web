@@ -1,10 +1,5 @@
-import { Shield, Settings } from "lucide-react";
-import { useAuth } from "../context/AuthContext";
-import { useApk } from "../context/ApkContext";
 
 export function Footer() {
-  const { currentUser, openAuthModal } = useAuth();
-  const { openAdminModal } = useApk();
 
   return (
     <footer className="footer">
@@ -25,29 +20,7 @@ export function Footer() {
           © {new Date().getFullYear()} Ledgerly. Hosted by Group 6.
         </span>
 
-        <div className="footer-admin-link-wrap">
-          {currentUser?.isAdmin ? (
-            <button
-              type="button"
-              onClick={openAdminModal}
-              className="footer-admin-btn"
-              title="Manage APK Releases"
-            >
-              <Settings size={12} />
-              <span>APK Console ({currentUser.username})</span>
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={openAuthModal}
-              className="footer-admin-btn"
-              title="Admin Portal Login"
-            >
-              <Shield size={12} />
-              <span>Admin Portal</span>
-            </button>
-          )}
-        </div>
+
       </div>
     </footer>
   );
