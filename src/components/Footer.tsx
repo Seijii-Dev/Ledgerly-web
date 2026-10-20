@@ -1,4 +1,3 @@
-
 export function Footer() {
 
   return (
@@ -19,8 +18,12 @@ export function Footer() {
         <span className="copyright-text">
           © {new Date().getFullYear()} Ledgerly. Hosted by Group 6.
         </span>
-
-
+        <a
+          href="/privacy.html"
+          style={{ color: 'inherit', textDecoration: 'underline' }}
+        >
+          Privacy Policy
+        </a>
       </div>
     </footer>
   );
