@@ -2,6 +2,8 @@
 
 ## User Documentation
 
+**For Ledgerly 1.0.6 · Last updated October 2026**
+
 ### 1. Introduction
 
 Smart Spending & Savings Tracker is a mobile application designed to help users manage their daily finances. It allows users to record expenses, monitor their spending habits, set budgets, track savings, and view spending reports. The application provides an organized and convenient way to understand where money is being spent and encourage better financial management.
@@ -31,7 +33,7 @@ From the welcome screen, the user can proceed to create an account or log in if 
 4. Select the login button.
 5. After successful authentication, the dashboard will appear.
 
-Ledgerly uses the Ledgerly Backend for account authentication and cloud synchronization. The Android app also caches account and expense data locally for offline use.
+Ledgerly uses Supabase Authentication and the Supabase cloud database for account and expense synchronization. The Android app connects directly to Supabase and keeps a local cache for offline use.
 
 ---
 
@@ -63,11 +65,11 @@ The **Add Expense** feature allows users to record their daily spending.
 1. Open the expense section.
 2. Select **Add Expense**.
 3. Enter the amount spent.
-4. Select an appropriate category.
+4. Select an appropriate category, or create a custom category name.
 5. Enter the necessary expense details.
 6. Save the transaction.
 
-After saving, the expense will appear in the user's transaction records.
+After saving, the expense will appear in the user's transaction records. When signed in and online, expenses sync to Supabase. Custom category names are stored on the device in this version.
 
 ### Example:
 
@@ -135,15 +137,15 @@ Regularly checking reports can help users become more aware of how they manage t
 
 ## 8. Budget Settings
 
-The **Budget** feature allows users to establish a spending limit.
+The **Budget** feature allows users to set a monthly spending limit.
 
 ### Steps:
 
 1. Open the budget settings.
-2. Enter the desired budget amount.
+2. Enter the desired monthly budget limit.
 3. Save the budget.
 4. Continue recording expenses normally.
-5. Monitor spending against the set budget.
+5. Monitor spending against the set limit.
 
 ### Example:
 
@@ -151,7 +153,7 @@ A user sets a monthly budget of **₱3,000**.
 
 As expenses are recorded, the user can monitor their spending and compare it with the planned budget.
 
-This helps users avoid unnecessary spending and develop better budgeting habits.
+Ledgerly uses one monthly budget limit per account. It is saved to the account profile and restored when the user signs in on another device. This helps users avoid unnecessary spending and develop better budgeting habits.
 
 ---
 
@@ -199,11 +201,13 @@ CSV files can be useful when users want to keep a copy of their expense records 
 
 ## 12. Data Storage and Privacy
 
-Ledgerly uses an offline-first local cache together with the Ledgerly Backend.
+Ledgerly uses an offline-first design. The Android app keeps a local cache of account and expense data so the ledger stays available without a connection.
 
-Account authentication, budgets, and synchronized expense records use the backend API, while the Android app keeps local cached data for offline use. Secure session storage is handled by the Android app.
+When signed in and online, the user's profile name, monthly budget, and expenses are synchronized with Supabase. The app connects directly to Supabase using its public publishable key, and Supabase row-level security restricts each account to its own records. Cloud account passwords are handled by Supabase Authentication.
 
-Users should export important records before clearing application data or uninstalling the application.
+Custom category names, appearance and notification preferences, and the local expense cache stay on the device in this version. These items are not synchronized between devices.
+
+Cloud writes require a connection. If a save cannot reach Supabase, the app reports the error so the user can retry. Users should export important records before clearing application data or uninstalling the application.
 
 ---
 
@@ -265,6 +269,12 @@ Smart Spending & Savings Tracker provides a simple way to record expenses, monit
 By using the application regularly, users can become more aware of where their money goes and make more organized financial decisions.
 
 **Track your spending. Manage your budget. Build better saving habits.**
+
+## Backend and sync architecture
+
+- **Mobile app:** The Flutter/Android app connects directly to Supabase for authentication and expense data. It ships only the public publishable key; Supabase row-level security enforces per-user access. The app keeps local cached account and expense data, while custom categories and preferences remain device-local in v1.0.6.
+- **Cloud data:** The `profiles` table stores each user's name and monthly budget. The `expenses` table stores synced expense records.
+- **Companion API:** The separate Next.js API at `https://expense-tracker-api-7kra.netlify.app` is an optional service for integrations and reporting. The Android app does not depend on it. The API uses Supabase Auth and the public publishable key; no service-role key is required. Route, sync, pagination, category, budget, and report details are documented in `Api Endpoint/Expense-Tracker-API-main/README.md` in the source release.
 
 ## APK publishing and hosting requirements
 

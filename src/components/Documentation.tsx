@@ -100,7 +100,7 @@ export function Documentation() {
         <div className="section-head docs-head">
           <div className="docs-badge">
             <BookOpen size={13} />
-            <span>Official Guide</span>
+            <span>Official Guide · Ledgerly 1.0.6</span>
           </div>
           <h2 className="section-heading">Smart Spending & Savings Tracker</h2>
         </div>
@@ -175,7 +175,7 @@ export function Documentation() {
 
               <div className="doc-callout">
                 <ShieldAlert size={16} className="callout-icon" />
-                <span>Ledgerly uses its backend for account authentication and cloud synchronization while retaining local cached records for offline use.</span>
+                <span>Ledgerly uses Supabase Authentication for sign-in and the Supabase cloud database for account and expense synchronization. The Android app keeps a local cache so your ledger remains available offline.</span>
               </div>
               {renderCardFooter()}
             </article>
@@ -238,13 +238,18 @@ export function Documentation() {
                 <li><span>Open the expense section.</span></li>
                 <li><span>Select <strong>Add Expense</strong>.</span></li>
                 <li><span>Enter the amount spent.</span></li>
-                <li><span>Select an appropriate category (e.g., Food, Transport, Education, Bills).</span></li>
+                <li><span>Select an appropriate category (e.g., Food, Transport, Education, Bills), or create a custom category name.</span></li>
                 <li><span>Enter the necessary expense details and description.</span></li>
                 <li><span>Save the transaction.</span></li>
               </ol>
               <p className="doc-p" style={{ marginTop: "10px" }}>
                 After saving, the expense will appear in the user's transaction records.
               </p>
+
+              <div className="doc-callout">
+                <ShieldAlert size={16} className="callout-icon" />
+                <span>When you are signed in and online, expenses sync to your Supabase account. Custom category names are stored on this device in this version.</span>
+              </div>
 
               <div className="doc-example-box">
                 <span className="example-badge">Example</span>
@@ -337,14 +342,14 @@ export function Documentation() {
                 <h3 className="doc-card-title">Budget Settings</h3>
               </div>
               <p className="doc-p">
-                The <strong>Budget</strong> feature allows users to establish strict spending limits to keep finances under control.
+                The <strong>Budget</strong> feature allows users to set a monthly spending limit to keep finances under control.
               </p>
               <ol className="doc-steps">
                 <li><span>Open budget settings.</span></li>
-                <li><span>Enter the desired budget ceiling amount (e.g., monthly or weekly).</span></li>
+                <li><span>Enter the desired monthly budget limit.</span></li>
                 <li><span>Save the budget configuration.</span></li>
                 <li><span>Continue recording expenses normally.</span></li>
-                <li><span>Monitor ongoing spending progress against the set ceiling.</span></li>
+                <li><span>Monitor ongoing spending progress against the set limit.</span></li>
               </ol>
 
               <div className="doc-example-box">
@@ -352,6 +357,11 @@ export function Documentation() {
                 <p className="example-text">
                   A user establishes a monthly spending cap of <strong>₱3,000</strong>. As transactions are logged, the application dynamically displays remaining funds and visual progress, helping the user avoid accidental overspending.
                 </p>
+              </div>
+
+              <div className="doc-callout">
+                <ShieldAlert size={16} className="callout-icon" />
+                <span>Ledgerly uses one monthly budget limit per account. It is saved to your profile and restored when you sign in on another device.</span>
               </div>
               {renderCardFooter()}
             </article>
@@ -422,14 +432,17 @@ export function Documentation() {
                 <h3 className="doc-card-title">Data Storage and Privacy</h3>
               </div>
               <p className="doc-p">
-                Ledgerly uses an <strong>offline-first storage architecture with optional cloud synchronization</strong>.
+                Ledgerly uses an <strong>offline-first design</strong>. The Android app keeps a local cache of your account and expense data so your ledger stays available without a connection.
               </p>
               <p className="doc-p">
-                User profiles, budgets, and synchronized transaction records are stored in the Ledgerly Backend. The Android app also keeps local cached records and session data so users can continue working offline. Authentication tokens are stored using the Android app's secure storage, and the application does not use third-party analytical telemetry networks.
+                When you are signed in and online, your profile name, monthly budget, and expenses are synchronized with Supabase. The app connects directly to Supabase using its public publishable key, and Supabase row-level security restricts each account to its own records. Cloud account passwords are handled by Supabase Authentication.
+              </p>
+              <p className="doc-p">
+                Some data stays on this device in this version: custom category names, appearance and notification preferences, and the local expense cache. These items are not synchronized between devices.
               </p>
               <div className="doc-callout doc-callout-warning">
                 <ShieldAlert size={16} className="callout-icon" />
-                <span><strong>Note on Local Data:</strong> Offline changes remain on the device until they synchronize. Export important records to CSV before clearing app data or uninstalling.</span>
+                <span><strong>Offline use:</strong> Cloud writes require a connection. If a save cannot reach Supabase, Ledgerly reports the error so you can retry. Export important records to CSV before clearing app data or uninstalling.</span>
               </div>
               {renderCardFooter()}
             </article>
@@ -564,6 +577,9 @@ export function Documentation() {
               </p>
               <p className="doc-p">
                 By using the application regularly, users can become more conscious of where their money goes and make more organized, empowered financial decisions.
+              </p>
+              <p className="doc-p">
+                Your account and expenses can follow you across signed-in devices through Supabase, while custom categories and preferences remain on the device in this version.
               </p>
               <div className="doc-motto-box">
                 <p className="doc-motto">
