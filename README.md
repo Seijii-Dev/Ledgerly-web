@@ -137,23 +137,23 @@ Regularly checking reports can help users become more aware of how they manage t
 
 ## 8. Budget Settings
 
-The **Budget** feature allows users to set a monthly spending limit.
+The **Budget** feature allows users to set a weekly spending limit.
 
 ### Steps:
 
 1. Open the budget settings.
-2. Enter the desired monthly budget limit.
+2. Enter the desired weekly budget limit.
 3. Save the budget.
 4. Continue recording expenses normally.
 5. Monitor spending against the set limit.
 
 ### Example:
 
-A user sets a monthly budget of **₱3,000**.
+A user sets a weekly spending limit.
 
 As expenses are recorded, the user can monitor their spending and compare it with the planned budget.
 
-Ledgerly uses one monthly budget limit per account. It is saved to the account profile and restored when the user signs in on another device. This helps users avoid unnecessary spending and develop better budgeting habits.
+Ledgerly uses one weekly budget limit per account. It is saved to the account profile and restored when the user signs in on another device. This helps users avoid unnecessary spending and develop better budgeting habits.
 
 ---
 
@@ -203,7 +203,7 @@ CSV files can be useful when users want to keep a copy of their expense records 
 
 Ledgerly uses an offline-first design. The Android app keeps a local cache of account and expense data so the ledger stays available without a connection.
 
-When signed in and online, the user's profile name, monthly budget, and expenses are synchronized with Supabase. The app connects directly to Supabase using its public publishable key, and Supabase row-level security restricts each account to its own records. Cloud account passwords are handled by Supabase Authentication.
+When signed in and online, the user's profile name, weekly budget, and expenses are synchronized with Supabase. The app connects directly to Supabase using its public publishable key, and Supabase row-level security restricts each account to its own records. Cloud account passwords are handled by Supabase Authentication.
 
 Custom category names, appearance and notification preferences, and the local expense cache stay on the device in this version. These items are not synchronized between devices.
 
@@ -273,7 +273,7 @@ By using the application regularly, users can become more aware of where their m
 ## Backend and sync architecture
 
 - **Mobile app:** The Flutter/Android app connects directly to Supabase for authentication and expense data. It ships only the public publishable key; Supabase row-level security enforces per-user access. The app keeps local cached account and expense data, while custom categories and preferences remain device-local in v1.0.6.
-- **Cloud data:** The `profiles` table stores each user's name and monthly budget. The `expenses` table stores synced expense records.
+- **Cloud data:** The `profiles` table stores each user's name and weekly budget. The `expenses` table stores synced expense records.
 - **Companion API:** The separate Next.js API at `https://expense-tracker-api-7kra.netlify.app` is an optional service for integrations and reporting. The Android app does not depend on it. The API uses Supabase Auth and the public publishable key; no service-role key is required. Route, sync, pagination, category, budget, and report details are documented in `Api Endpoint/Expense-Tracker-API-main/README.md` in the source release.
 
 ## APK publishing and hosting requirements

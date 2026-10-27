@@ -1,4 +1,4 @@
-import { ArrowUpRight, Coffee, BusFront, BookOpen, ChevronRight, PiggyBank, SlidersHorizontal } from "lucide-react";
+import { ArrowUpRight, Coffee, BusFront, BookOpen, PiggyBank } from "lucide-react";
 
 const categories = [
   { name: "Food", amount: 150, Icon: Coffee },
@@ -12,7 +12,7 @@ export function ProductDetails() {
       <div className="container product-details-inner">
         <header className="product-details-head">
           <h2 id="product-details-heading">Small entries. A clearer picture.</h2>
-          <p>Ledgerly brings everyday records, monthly limits, and savings goals into one simple routine.</p>
+          <p>Ledgerly brings everyday records, weekly limits, and savings goals into one simple routine.</p>
         </header>
 
         <div className="product-detail-list">
@@ -39,28 +39,6 @@ export function ProductDetails() {
             <div className="product-detail-copy">
               <h3>Know where the day went</h3>
               <p>Record each purchase, then see your spending grouped by category. This sample matches the ₱300 daily example in the guide.</p>
-            </div>
-          </article>
-
-          <article className="product-detail-row">
-            <div className="detail-fragment budget-fragment" data-ui aria-label="Example monthly budget setting">
-              <div className="fragment-heading">
-                <div>
-                  <strong>Monthly budget</strong>
-                  <span>A sample limit from the guide</span>
-                </div>
-                <SlidersHorizontal size={17} />
-              </div>
-              <div className="budget-limit-row">
-                <strong>₱3,000</strong>
-                <span>per month</span>
-              </div>
-              <div className="budget-setting-row"><span>Budget limit</span><span className="setting-value">₱3,000 <ChevronRight size={15} /></span></div>
-              <p className="fragment-helper">Your limit is saved to your profile.</p>
-            </div>
-            <div className="product-detail-copy">
-              <h3>Give your month a boundary</h3>
-              <p>Set one monthly spending limit and check it as expenses come in. Change the amount any time from Budget settings.</p>
             </div>
           </article>
 

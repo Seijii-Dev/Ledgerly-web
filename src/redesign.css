@@ -656,51 +656,6 @@
   font-weight: 600;
 }
 
-.budget-limit-row {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin-top: 25px;
-}
-
-.budget-limit-row strong {
-  color: #f3f3f1;
-  font-size: 29px;
-  font-weight: 500;
-  letter-spacing: -0.05em;
-}
-
-.budget-limit-row span {
-  color: #aaa69e;
-  font-size: 13px;
-}
-
-.budget-setting-row {
-  display: flex;
-  min-height: 47px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 10px;
-  border-top: 1px solid #39332c;
-  color: #c8c3ba;
-  font-size: 13px;
-}
-
-.setting-value {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #f3f3f1;
-  font-variant-numeric: tabular-nums;
-}
-
-.fragment-helper {
-  margin: 0;
-  color: #aaa69e;
-  font-size: 13px;
-}
-
 .goal-state {
   display: flex;
   align-items: center;
