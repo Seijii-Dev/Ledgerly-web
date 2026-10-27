@@ -1,8 +1,9 @@
-import "./App.css";
+import "./redesign.css";
 import { AuthProvider } from "./context/AuthContext";
 import { ApkProvider } from "./context/ApkContext";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
+import { ProductDetails } from "./components/ProductDetails";
 import { Documentation } from "./components/Documentation";
 import { Footer } from "./components/Footer";
 import { AuthModal } from "./components/AuthModal";
@@ -13,18 +14,10 @@ function App() {
     <AuthProvider>
       <ApkProvider>
         <div className="page-wrapper">
-          {/* Ambient Liquid Light Canvas (Refracted by glass surfaces) */}
-          <div className="liquid-ambient-canvas" aria-hidden="true">
-            <div className="liquid-orb liquid-orb-1" />
-            <div className="liquid-orb liquid-orb-2" />
-            <div className="liquid-orb liquid-orb-3" />
-            <div className="liquid-orb liquid-orb-4" />
-            <div className="liquid-mesh-grid" />
-          </div>
-
           <Navbar />
           <main>
             <Hero />
+            <ProductDetails />
             <Documentation />
           </main>
           <Footer />

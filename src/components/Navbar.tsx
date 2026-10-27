@@ -1,88 +1,41 @@
-import { useState, useEffect } from "react";
-import { Download, LogOut, Upload, Shield, MessageSquare, Sparkles } from "lucide-react";
+import { Download, LogOut, Upload, MessageSquare } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useApk } from "../context/ApkContext";
 
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-
   const { currentUser, logout } = useAuth();
   const { currentApk, openAdminModal } = useApk();
 
-  useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setScrolled(window.scrollY > 15);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <header className={`navbar-wrapper ${scrolled ? "navbar-scrolled" : ""}`}>
+    <header className="navbar-wrapper">
       <div className="container nav-container-wrap">
-        <div className="navbar-glass-island">
-          {/* Brand */}
-          <a href="#" className="nav-brand">
-            <div className="nav-logo-glass-frame">
-              <img src="/icon.png" alt="Ledgerly" className="nav-logo" />
-            </div>
-            <span className="brand-name font-serif">Ledgerly</span>
+        <nav className="navbar-glass-island" aria-label="Main navigation">
+          <a href="#top" className="nav-brand" aria-label="Ledgerly home">
+            <img src="/icon.png" alt="" className="nav-logo" />
+            <span className="brand-name">Ledgerly</span>
           </a>
 
-
-          {/* Actions (Responsive) */}
-          <div className="nav-actions">
-            {/* Feedback Link (Email) */}
-            <a
-              href="mailto:jonhobayan16@gmail.com?subject=Ledgerly%20Feedback"
-              className="btn btn-secondary btn-sm nav-feedback-btn"
-              title="Send Feedback to jonhobayan16@gmail.com"
-            >
-              <MessageSquare size={13} />
-              <span>Feedback</span>
+          <div className="nav-links">
+            <a className="nav-link" href="#docs">Guide</a>
+            <a className="nav-link nav-feedback-link" href="mailto:jonhobayan16@gmail.com?subject=Ledgerly%20Feedback">
+              <MessageSquare size={15} /> Feedback
             </a>
+          </div>
 
-            {/* Admin Tools Button if seiji is logged in */}
+          <div className="nav-actions">
             {currentUser?.isAdmin && (
-              <button
-                onClick={openAdminModal}
-                className="btn btn-secondary btn-sm admin-nav-btn"
-                title="Import or update active APK"
-              >
-                <Upload size={14} className="admin-upload-icon" />
-                <span className="btn-label-desktop">Import APK</span>
-              </button>
-            )}
-
-            {/* Admin User Profile Pill (Only visible when logged in) */}
-            {currentUser?.isAdmin && (
-              <div className="user-profile-pill">
-                <div className="user-info">
-                  <span className="badge badge-admin">
-                    <Shield size={11} />
-                    <span className="admin-badge-text">Admin</span>
-                  </span>
-                  <span className="user-name">{currentUser.username}</span>
-                </div>
-                <button
-                  onClick={logout}
-                  className="logout-btn"
-                  title="Sign Out"
-                  aria-label="Sign Out"
-                >
-                  <LogOut size={13} />
+              <>
+                <button onClick={openAdminModal} className="btn btn-secondary btn-sm admin-nav-btn">
+                  <Upload size={15} /> <span>Manage release</span>
                 </button>
-              </div>
+                <div className="user-profile-pill">
+                  <span className="user-name">{currentUser.username}</span>
+                  <button onClick={logout} className="logout-btn" title="Sign out" aria-label="Sign out">
+                    <LogOut size={15} />
+                  </button>
+                </div>
+              </>
             )}
-
-            {/* Direct Download Button */}
             {currentApk ? (
               <a
                 href={currentApk.downloadUrl}
@@ -91,17 +44,13 @@ export function Navbar() {
                 rel={currentApk.downloadUrl.startsWith("http") ? "noopener noreferrer" : undefined}
                 className="btn btn-primary btn-sm nav-download-btn"
               >
-                <Download size={14} />
-                <span>Download APK</span>
+                <Download size={15} /> <span>Download APK</span>
               </a>
             ) : (
-              <a href="#docs" className="btn btn-secondary btn-sm nav-download-btn">
-                <Sparkles size={13} />
-                <span>Explore App</span>
-              </a>
+              <a href="#docs" className="btn btn-primary btn-sm nav-download-btn">Explore Ledgerly</a>
             )}
           </div>
-        </div>
+        </nav>
       </div>
     </header>
   );

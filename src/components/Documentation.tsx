@@ -22,25 +22,25 @@ import {
 
 export function Documentation() {
   const [activeSection, setActiveSection] = useState<string>("intro");
-  const quickNavRef = useRef<HTMLDivElement>(null);
+  const quickNavRef = useRef<HTMLElement>(null);
 
   const docSections = [
-    { id: "intro", title: "1. Introduction", icon: BookOpen },
-    { id: "getting-started", title: "2. Getting Started", icon: Sparkles },
-    { id: "dashboard", title: "3. Dashboard", icon: Layers },
-    { id: "add-expense", title: "4. Adding an Expense", icon: PlusCircle },
-    { id: "edit-expense", title: "5. Editing an Expense", icon: Edit3 },
-    { id: "search-filter", title: "6. Search & Filter", icon: Search },
-    { id: "reports", title: "7. Spending Reports", icon: PieChart },
-    { id: "budget", title: "8. Budget Settings", icon: Sliders },
-    { id: "savings", title: "9. Savings Tracking", icon: PiggyBank },
-    { id: "themes", title: "10. Dark & Light Mode", icon: Moon },
-    { id: "export", title: "11. Exporting Data", icon: FileSpreadsheet },
-    { id: "storage", title: "12. Data & Privacy", icon: ShieldAlert },
-    { id: "logout", title: "13. Logging Out", icon: LogOut },
-    { id: "recommended", title: "14. Recommended Usage", icon: Lightbulb },
-    { id: "daily-example", title: "15. Daily Usage Example", icon: Calendar },
-    { id: "summary", title: "16. Summary", icon: CheckCircle2 },
+    { id: "intro", title: "Introduction", icon: BookOpen },
+    { id: "getting-started", title: "Getting started", icon: Sparkles },
+    { id: "dashboard", title: "Dashboard", icon: Layers },
+    { id: "add-expense", title: "Add an expense", icon: PlusCircle },
+    { id: "edit-expense", title: "Edit an expense", icon: Edit3 },
+    { id: "search-filter", title: "Search and filter", icon: Search },
+    { id: "reports", title: "Spending reports", icon: PieChart },
+    { id: "budget", title: "Budget settings", icon: Sliders },
+    { id: "savings", title: "Savings goals", icon: PiggyBank },
+    { id: "themes", title: "Appearance", icon: Moon },
+    { id: "export", title: "Export data", icon: FileSpreadsheet },
+    { id: "storage", title: "Data and privacy", icon: ShieldAlert },
+    { id: "logout", title: "Sign out", icon: LogOut },
+    { id: "recommended", title: "Good habits", icon: Lightbulb },
+    { id: "daily-example", title: "A sample day", icon: Calendar },
+    { id: "summary", title: "Summary", icon: CheckCircle2 },
   ];
 
   const currentIndex = docSections.findIndex((s) => s.id === activeSection);
@@ -52,12 +52,11 @@ export function Documentation() {
   };
 
   useEffect(() => {
-    // Keep active chip visible in horizontal swipe bar
-    if (quickNavRef.current) {
-      const activeBtn = quickNavRef.current.querySelector<HTMLElement>(`[data-chip-id="${activeSection}"]`);
-      if (activeBtn) {
-        activeBtn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-      }
+    // Keep the selected section visible in the phone's horizontal guide rail.
+    if (quickNavRef.current && window.matchMedia("(max-width: 700px)").matches) {
+      const nav = quickNavRef.current;
+      const activeBtn = nav.querySelector<HTMLElement>(`[data-chip-id="${activeSection}"]`);
+      if (activeBtn) nav.scrollTo({ left: Math.max(0, activeBtn.offsetLeft - 12), behavior: "smooth" });
     }
   }, [activeSection]);
 
@@ -75,8 +74,8 @@ export function Documentation() {
         <div className="doc-nav-placeholder" />
       )}
 
-      <span className="doc-card-pagination font-mono">
-        {String(currentIndex + 1).padStart(2, "0")} / {String(docSections.length).padStart(2, "0")}
+      <span className="doc-card-pagination">
+        {currentIndex + 1} of {docSections.length}
       </span>
 
       {nextSection ? (
@@ -94,19 +93,16 @@ export function Documentation() {
   );
 
   return (
-    <section id="docs" className="section docs-section">
-      <div className="container">
+    <section id="docs" className="section docs-section" aria-labelledby="docs-heading">
+      <div className="container docs-container">
         {/* Section Header */}
         <div className="section-head docs-head">
-          <div className="docs-badge">
-            <BookOpen size={13} />
-            <span>Official Guide · Ledgerly 1.0.6</span>
-          </div>
-          <h2 className="section-heading">Smart Spending & Savings Tracker</h2>
+          <h2 id="docs-heading" className="section-heading">The Ledgerly guide</h2>
+          <p>Everything you need to start tracking expenses, manage your budget, and protect your data.</p>
         </div>
 
-        {/* Quick Jump Bar (Horizontal Swiping Chips) */}
-        <div className="docs-quick-nav" ref={quickNavRef}>
+        <div className="docs-layout">
+        <nav className="docs-quick-nav" aria-label="Guide sections" ref={quickNavRef}>
           {docSections.map((sec) => {
             const Icon = sec.icon;
             return (
@@ -114,6 +110,8 @@ export function Documentation() {
                 key={sec.id}
                 data-chip-id={sec.id}
                 onClick={() => selectSection(sec.id)}
+                aria-pressed={activeSection === sec.id}
+                aria-controls="guide-content"
                 className={`docs-nav-chip ${activeSection === sec.id ? "active" : ""}`}
               >
                 <Icon size={13} />
@@ -121,15 +119,14 @@ export function Documentation() {
               </button>
             );
           })}
-        </div>
+        </nav>
 
         {/* Single Card Display */}
-        <div className="docs-body docs-single-container">
+        <div id="guide-content" className="docs-body docs-single-container">
           {/* 1. Introduction */}
           {activeSection === "intro" && (
             <article id="intro" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">01</span>
                 <h3 className="doc-card-title">Introduction</h3>
               </div>
               <p className="doc-p">
@@ -143,7 +140,6 @@ export function Documentation() {
           {activeSection === "getting-started" && (
             <article id="getting-started" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">02</span>
                 <h3 className="doc-card-title">Getting Started</h3>
               </div>
               <p className="doc-p">
@@ -185,7 +181,6 @@ export function Documentation() {
           {activeSection === "dashboard" && (
             <article id="dashboard" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">03</span>
                 <h3 className="doc-card-title">Dashboard</h3>
               </div>
               <p className="doc-p">
@@ -228,7 +223,6 @@ export function Documentation() {
           {activeSection === "add-expense" && (
             <article id="add-expense" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">04</span>
                 <h3 className="doc-card-title">Adding an Expense</h3>
               </div>
               <p className="doc-p">
@@ -269,7 +263,6 @@ export function Documentation() {
           {activeSection === "edit-expense" && (
             <article id="edit-expense" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">05</span>
                 <h3 className="doc-card-title">Editing an Expense</h3>
               </div>
               <p className="doc-p">
@@ -294,7 +287,6 @@ export function Documentation() {
           {activeSection === "search-filter" && (
             <article id="search-filter" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">06</span>
                 <h3 className="doc-card-title">Searching & Filtering Transactions</h3>
               </div>
               <p className="doc-p">
@@ -314,7 +306,6 @@ export function Documentation() {
           {activeSection === "reports" && (
             <article id="reports" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">07</span>
                 <h3 className="doc-card-title">Spending Reports</h3>
               </div>
               <p className="doc-p">
@@ -338,7 +329,6 @@ export function Documentation() {
           {activeSection === "budget" && (
             <article id="budget" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">08</span>
                 <h3 className="doc-card-title">Budget Settings</h3>
               </div>
               <p className="doc-p">
@@ -371,7 +361,6 @@ export function Documentation() {
           {activeSection === "savings" && (
             <article id="savings" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">09</span>
                 <h3 className="doc-card-title">Savings Tracking</h3>
               </div>
               <p className="doc-p">
@@ -388,7 +377,6 @@ export function Documentation() {
           {activeSection === "themes" && (
             <article id="themes" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">10</span>
                 <h3 className="doc-card-title">Dark and Light Mode</h3>
               </div>
               <p className="doc-p">
@@ -408,7 +396,6 @@ export function Documentation() {
           {activeSection === "export" && (
             <article id="export" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">11</span>
                 <h3 className="doc-card-title">Exporting Data (CSV)</h3>
               </div>
               <p className="doc-p">
@@ -428,7 +415,6 @@ export function Documentation() {
           {activeSection === "storage" && (
             <article id="storage" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">12</span>
                 <h3 className="doc-card-title">Data Storage and Privacy</h3>
               </div>
               <p className="doc-p">
@@ -452,7 +438,6 @@ export function Documentation() {
           {activeSection === "logout" && (
             <article id="logout" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">13</span>
                 <h3 className="doc-card-title">Logging Out</h3>
               </div>
               <p className="doc-p">
@@ -472,7 +457,6 @@ export function Documentation() {
           {activeSection === "recommended" && (
             <article id="recommended" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">14</span>
                 <h3 className="doc-card-title">Recommended Usage Practices</h3>
               </div>
               <div className="doc-features-list">
@@ -509,7 +493,6 @@ export function Documentation() {
           {activeSection === "daily-example" && (
             <article id="daily-example" className="doc-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">15</span>
                 <h3 className="doc-card-title">Example of Daily Usage</h3>
               </div>
               <p className="doc-p">
@@ -529,30 +512,30 @@ export function Documentation() {
                     <tr>
                       <td>Breakfast</td>
                       <td><span className="table-badge">Food</span></td>
-                      <td className="text-right font-mono">₱50</td>
+                      <td className="text-right">₱50</td>
                     </tr>
                     <tr>
                       <td>Transportation</td>
                       <td><span className="table-badge">Transport</span></td>
-                      <td className="text-right font-mono">₱80</td>
+                      <td className="text-right">₱80</td>
                     </tr>
                     <tr>
                       <td>Lunch</td>
                       <td><span className="table-badge">Food</span></td>
-                      <td className="text-right font-mono">₱100</td>
+                      <td className="text-right">₱100</td>
                     </tr>
                     <tr>
                       <td>School Supplies</td>
                       <td><span className="table-badge">Education</span></td>
-                      <td className="text-right font-mono">₱70</td>
+                      <td className="text-right">₱70</td>
                     </tr>
                     <tr className="table-total-row">
                       <td colSpan={2}><strong>Total Daily Expenses</strong></td>
-                      <td className="text-right font-mono total-amount"><strong>₱300</strong></td>
+                      <td className="text-right total-amount"><strong>₱300</strong></td>
                     </tr>
                     <tr className="table-savings-row">
                       <td colSpan={2}><strong>Remaining for Savings</strong></td>
-                      <td className="text-right font-mono savings-amount"><strong>₱200</strong></td>
+                      <td className="text-right savings-amount"><strong>₱200</strong></td>
                     </tr>
                   </tbody>
                 </table>
@@ -569,7 +552,6 @@ export function Documentation() {
           {activeSection === "summary" && (
             <article id="summary" className="doc-card doc-summary-card doc-card-active">
               <div className="doc-card-head">
-                <span className="doc-num">16</span>
                 <h3 className="doc-card-title">Summary</h3>
               </div>
               <p className="doc-p">
@@ -589,6 +571,7 @@ export function Documentation() {
               {renderCardFooter()}
             </article>
           )}
+        </div>
         </div>
       </div>
     </section>

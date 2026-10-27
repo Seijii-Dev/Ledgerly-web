@@ -1,29 +1,16 @@
 export function Footer() {
-
   return (
     <footer className="footer">
       <div className="container footer-inner">
-        <div className="footer-left">
-          <div className="footer-brand-row">
-            <img src="/icon.png" alt="Ledgerly" className="footer-logo" />
-            <span className="footer-brand font-serif">Ledgerly</span>
-          </div>
-          <p className="footer-desc">
-            Smart Spending & Savings Tracker. Developed by Group 6.
-          </p>
-        </div>
-      </div>
-
-      <div className="container footer-bottom">
-        <span className="copyright-text">
-          © {new Date().getFullYear()} Ledgerly. Hosted by Group 6.
-        </span>
-        <a
-          href="/privacy.html"
-          style={{ color: 'inherit', textDecoration: 'underline' }}
-        >
-          Privacy Policy
+        <a href="#top" className="footer-brand-row" aria-label="Ledgerly, back to top">
+          <img src="/icon.png" alt="" className="footer-logo" />
+          <span className="footer-brand">Ledgerly</span>
         </a>
+        <p className="footer-desc">A simpler way to understand everyday spending.</p>
+      </div>
+      <div className="container footer-bottom">
+        <span>© {new Date().getFullYear()} Ledgerly · Group 6</span>
+        <a href="/privacy.html">Privacy policy</a>
       </div>
     </footer>
   );

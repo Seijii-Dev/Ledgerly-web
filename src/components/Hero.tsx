@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Download, Check, Upload, AlertCircle, Calendar } from "lucide-react";
+import { Download, Check, Upload, AlertCircle, Calendar, ArrowDown } from "lucide-react";
 import { useApk } from "../context/ApkContext";
 import { useAuth } from "../context/AuthContext";
 import { formatReleaseDate } from "../utils/apkValidation";
+import { LedgerPreview } from "./LedgerPreview";
 
 export function Hero() {
   const { currentApk, openAdminModal, isLoading } = useApk();
@@ -12,28 +13,23 @@ export function Hero() {
   const handleDownloadClick = () => {
     if (!currentApk) return;
     setDownloadStarted(true);
-    setTimeout(() => setDownloadStarted(false), 4000);
+    window.setTimeout(() => setDownloadStarted(false), 4000);
   };
 
   return (
-    <section className="hero">
+    <section id="top" className="hero" aria-labelledby="hero-heading">
       <div className="container hero-inner">
-        {/* Hero Title & Subtitle */}
-        <h1 className="hero-heading">
-          Download Ledgerly
-        </h1>
-        <p className="hero-description">
-          Smart Spending & Savings Tracker is a simple and convenient tool to manage daily expenses and habits. It allows us to understand where spending goes, so saving becomes easier and more manageable.
-        </p>
+        <div className="hero-copy">
+          <h1 id="hero-heading" className="hero-heading">A clearer view of daily spending.</h1>
+          <p className="hero-description">
+            Ledgerly is an Android expense tracker that helps students record everyday spending, stay on budget, and make room for savings.
+          </p>
 
-        {/* Primary Download Glass Chamber */}
-        <div className="hero-download-box hero-glass-chamber">
-          <div className="glass-chamber-specular-edge" />
-          <div className="primary-action-wrap">
+          <div className="hero-actions">
             {isLoading ? (
-              <button disabled className="btn btn-secondary btn-large download-main-btn glass-btn-disabled">
+              <button disabled className="btn btn-primary btn-large download-main-btn">
                 <span className="btn-spinner" />
-                <span>Checking release status...</span>
+                <span>Checking for the latest release</span>
               </button>
             ) : currentApk ? (
               <a
@@ -42,88 +38,58 @@ export function Hero() {
                 target={currentApk.downloadUrl.startsWith("http") ? "_blank" : undefined}
                 rel={currentApk.downloadUrl.startsWith("http") ? "noopener noreferrer" : undefined}
                 onClick={handleDownloadClick}
-                className="btn btn-primary btn-large download-main-btn liquid-download-btn"
+                className="btn btn-primary btn-large download-main-btn"
               >
-                {downloadStarted ? (
-                  <>
-                    <Check size={20} className="check-animated" />
-                    <span>Downloading {currentApk.fileName}...</span>
-                  </>
-                ) : (
-                  <>
-                    <Download size={20} className="download-bounce" />
-                    <span>Download for Android (APK)</span>
-                  </>
-                )}
+                {downloadStarted ? <Check size={18} /> : <Download size={18} />}
+                <span>{downloadStarted ? `Downloading ${currentApk.fileName}…` : "Download for Android"}</span>
               </a>
             ) : currentUser?.isAdmin ? (
-              <button
-                onClick={openAdminModal}
-                className="btn btn-primary btn-large download-main-btn liquid-download-btn"
-              >
+              <button onClick={openAdminModal} className="btn btn-primary btn-large download-main-btn">
                 <Upload size={18} />
-                <span>Import APK Build (Admin)</span>
+                <span>Import an APK build</span>
               </button>
             ) : (
-              <div className="no-release-box">
-                <button
-                  disabled
-                  className="btn btn-secondary btn-large download-main-btn disabled-btn"
-                >
+              <div className="release-unavailable">
+                <button disabled className="btn btn-primary btn-large download-main-btn">
                   <AlertCircle size={18} />
-                  <span>Awaiting APK Release</span>
+                  <span>Release coming soon</span>
                 </button>
-                <p className="no-release-note">
-                  No APK build has been published yet. Please check back soon.
-                </p>
+                <p>No Android build has been published yet.</p>
               </div>
             )}
 
-            {currentApk && (
-              <div className="download-meta-glass">
-                <span className="meta-pill font-mono">
-                  <span className="meta-indicator" />
-                  v{currentApk.version}
-                </span>
-                <span className="meta-dot">•</span>
-                <span className="meta-pill font-mono">{currentApk.fileSize}</span>
-                {currentApk.updatedAt && (
-                  <>
-                    <span className="meta-dot">•</span>
-                    <span className="meta-pill font-mono" title={`Updated: ${currentApk.updatedAt}`}>
-                      <Calendar size={11} style={{ display: "inline", verticalAlign: "-1px", marginRight: "4px" }} />
-                      {formatReleaseDate(currentApk.updatedAt)}
-                    </span>
-                  </>
-                )}
-                <span className="meta-dot">•</span>
-                <span className="meta-pill font-mono">Android 8.0+</span>
-              </div>
-            )}
+            <a className="hero-guide-link" href="#docs">
+              Read the guide <ArrowDown size={15} />
+            </a>
           </div>
 
-          {/* Admin quick bar when seiji is logged in */}
+          {currentApk && (
+            <div className="release-details" aria-label="Release details">
+              <span>Version {currentApk.version}</span>
+              <span>{currentApk.fileSize}</span>
+              {currentApk.updatedAt && <span><Calendar size={13} /> Updated {formatReleaseDate(currentApk.updatedAt)}</span>}
+              <span>Android 8.0 or later</span>
+            </div>
+          )}
+
           {currentUser?.isAdmin && (
-            <div className="admin-quick-bar-glass">
-              <span className="admin-quick-text">
-                Admin: <strong>{currentUser.username}</strong> — {currentApk ? "Build Active" : "No Build Published"}
-              </span>
-              <button onClick={openAdminModal} className="btn btn-secondary btn-sm admin-quick-btn">
-                <Upload size={13} />
-                <span>{currentApk ? "Update / Replace APK" : "Import APK Now"}</span>
+            <div className="admin-quick-bar">
+              <span>Signed in as <strong>{currentUser.username}</strong> · {currentApk ? "Release active" : "No release published"}</span>
+              <button onClick={openAdminModal} className="btn btn-secondary btn-sm">
+                <Upload size={14} /> {currentApk ? "Manage release" : "Publish APK"}
               </button>
             </div>
           )}
 
-          {/* Download Notification Banner when clicked */}
           {downloadStarted && (
-            <div className="download-started-alert-glass">
-              <span className="alert-ping-ring">
-                <span className="alert-ping-dot" />
-              </span>
-              <span>Your download has started. To install, tap the file in your downloads folder.</span>
-            </div>
+            <p className="download-started-alert" role="status">
+              Your download has started. Open the APK file from your downloads to install Ledgerly.
+            </p>
           )}
+        </div>
+        <div className="hero-demo-wrap">
+          <LedgerPreview />
+          <p className="hero-demo-caption">An example day · adjust the allowance</p>
         </div>
       </div>
     </section>
