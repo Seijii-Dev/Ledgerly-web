@@ -33,8 +33,6 @@ From the welcome screen, the user can proceed to create an account or log in if 
 4. Select the login button.
 5. After successful authentication, the dashboard will appear.
 
-Ledgerly uses Supabase Authentication and the Supabase cloud database for account and expense synchronization. The Android app connects directly to Supabase and keeps a local cache for offline use.
-
 ---
 
 ## 3. Dashboard
@@ -52,8 +50,6 @@ The dashboard can be used to:
 - Review spending reports.
 - Manage budget settings.
 
-The dashboard is designed to give users a quick understanding of their current spending situation.
-
 ---
 
 ## 4. Adding an Expense
@@ -69,7 +65,7 @@ The **Add Expense** feature allows users to record their daily spending.
 5. Enter the necessary expense details.
 6. Save the transaction.
 
-After saving, the expense will appear in the user's transaction records. When signed in and online, expenses sync to Supabase. Custom category names are stored on the device in this version.
+After saving, the expense will appear in the user's transaction records.
 
 ### Example:
 
@@ -147,14 +143,6 @@ The **Budget** feature allows users to set a weekly spending limit.
 4. Continue recording expenses normally.
 5. Monitor spending against the set limit.
 
-### Example:
-
-A user sets a weekly spending limit.
-
-As expenses are recorded, the user can monitor their spending and compare it with the planned budget.
-
-Ledgerly uses one weekly budget limit per account. It is saved to the account profile and restored when the user signs in on another device. This helps users avoid unnecessary spending and develop better budgeting habits.
-
 ---
 
 ## 9. Savings Tracking
@@ -167,24 +155,7 @@ For example, a student may set a goal to save money for a new school item. By re
 
 ---
 
-## 10. Dark and Light Mode
-
-The application supports both **Light Mode** and **Dark Mode**.
-
-Users can change the appearance of the application according to their preference.
-
-### Steps:
-
-1. Open the application settings.
-2. Find the appearance or theme option.
-3. Select **Light Mode** or **Dark Mode**.
-4. The application interface will update accordingly.
-
-The selected theme is persisted on the device.
-
----
-
-## 11. Exporting Data
+## 10. Exporting Data
 
 The application provides a **CSV export** feature.
 
@@ -199,19 +170,7 @@ CSV files can be useful when users want to keep a copy of their expense records 
 
 ---
 
-## 12. Data Storage and Privacy
-
-Ledgerly uses an offline-first design. The Android app keeps a local cache of account and expense data so the ledger stays available without a connection.
-
-When signed in and online, the user's profile name, weekly budget, and expenses are synchronized with Supabase. The app connects directly to Supabase using its public publishable key, and Supabase row-level security restricts each account to its own records. Cloud account passwords are handled by Supabase Authentication.
-
-Custom category names, appearance and notification preferences, and the local expense cache stay on the device in this version. These items are not synchronized between devices.
-
-Cloud writes require a connection. If a save cannot reach Supabase, the app reports the error so the user can retry. Users should export important records before clearing application data or uninstalling the application.
-
----
-
-## 13. Logging Out
+## 11. Logging Out
 
 When finished using the application, the user can log out of their account.
 
@@ -226,7 +185,7 @@ The user can log in again using their registered credentials.
 
 ---
 
-## 14. Recommended Usage
+## 12. Recommended Usage
 
 For the best experience, users should:
 
@@ -241,7 +200,7 @@ For the best experience, users should:
 
 ---
 
-## 15. Example of Daily Usage
+## 13. Example of Daily Usage
 
 A student receives **₱500** for the day.
 
@@ -262,7 +221,7 @@ By consistently recording transactions, the user can identify spending patterns 
 
 ---
 
-## 16. Summary
+## 14. Summary
 
 Smart Spending & Savings Tracker provides a simple way to record expenses, monitor spending, manage budgets, review financial activity, and develop better saving habits.
 

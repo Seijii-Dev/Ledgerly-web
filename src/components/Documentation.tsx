@@ -8,9 +8,7 @@ import {
   Search,
   Sliders,
   PiggyBank,
-  Moon,
   FileSpreadsheet,
-  ShieldAlert,
   LogOut,
   Lightbulb,
   Calendar,
@@ -34,9 +32,7 @@ export function Documentation() {
     { id: "reports", title: "Spending reports", icon: PieChart },
     { id: "budget", title: "Budget settings", icon: Sliders },
     { id: "savings", title: "Savings goals", icon: PiggyBank },
-    { id: "themes", title: "Appearance", icon: Moon },
     { id: "export", title: "Export data", icon: FileSpreadsheet },
-    { id: "storage", title: "Data and privacy", icon: ShieldAlert },
     { id: "logout", title: "Sign out", icon: LogOut },
     { id: "recommended", title: "Good habits", icon: Lightbulb },
     { id: "daily-example", title: "A sample day", icon: Calendar },
@@ -169,10 +165,6 @@ export function Documentation() {
                 </ol>
               </div>
 
-              <div className="doc-callout">
-                <ShieldAlert size={16} className="callout-icon" />
-                <span>Ledgerly uses Supabase Authentication for sign-in and the Supabase cloud database for account and expense synchronization. The Android app keeps a local cache so your ledger remains available offline.</span>
-              </div>
               {renderCardFooter()}
             </article>
           )}
@@ -212,9 +204,6 @@ export function Documentation() {
                   <span>Manage budget settings</span>
                 </div>
               </div>
-              <p className="doc-p" style={{ marginTop: "12px" }}>
-                The dashboard is designed to give users an immediate, intuitive understanding of their current financial situation.
-              </p>
               {renderCardFooter()}
             </article>
           )}
@@ -239,11 +228,6 @@ export function Documentation() {
               <p className="doc-p" style={{ marginTop: "10px" }}>
                 After saving, the expense will appear in the user's transaction records.
               </p>
-
-              <div className="doc-callout">
-                <ShieldAlert size={16} className="callout-icon" />
-                <span>When you are signed in and online, expenses sync to your Supabase account. Custom category names are stored on this device in this version.</span>
-              </div>
 
               <div className="doc-example-box">
                 <span className="example-badge">Example</span>
@@ -342,17 +326,6 @@ export function Documentation() {
                 <li><span>Monitor ongoing spending progress against the set limit.</span></li>
               </ol>
 
-              <div className="doc-example-box">
-                <span className="example-badge">Budget Example</span>
-                <p className="example-text">
-                  A user sets a weekly spending cap. As transactions are logged, Ledgerly displays the remaining funds and spending progress to help prevent overspending.
-                </p>
-              </div>
-
-              <div className="doc-callout">
-                <ShieldAlert size={16} className="callout-icon" />
-                <span>Ledgerly uses one weekly budget limit per account. It is saved to your profile and restored when you sign in on another device.</span>
-              </div>
               {renderCardFooter()}
             </article>
           )}
@@ -364,4 +337,174 @@ export function Documentation() {
                 <h3 className="doc-card-title">Savings Tracking</h3>
               </div>
               <p className="doc-p">
-                The application supports financial tracking that empowers users to monitor their ongoing progress towardã}¶‰ËkºwµçG&öæsà¢Ç7ãäÖ¶R&öw&W72öæRFW÷6—BBF–ÖSÂ÷7ãà¢ÂöF—cà¢Å–vw”&æ²6—¦S×³‡Òóà¢ÂöF—cà¢ÆF—b6Æ74æÖSÒ&vöÂ×7FFR#à¢Ç7â6Æ74æÖSÒ&vöÂÖÖ&²#ãÄ'&÷uW&–v‡B6—¦S×³wÒóãÂ÷7ãà¢ÆF—cãÇ7G&öæså7F'Bv—F‚&V6öãÂ÷7G&öæsãÇ7ãä6†ö÷6R6öÖWF†–ær–÷RvçBFò6fRf÷"ãÂ÷7ããÂöF—cà¢ÂöF—cà¢ÆF—b6Æ74æÖSÒ&vöÂÖfö÷FW"#ãÇ7ãåG&6²B–÷W"÷vâ6SÂ÷7ããÂöF—cà¢ÂöF—cà¢ÆF—b6Æ74æÖSÒ'&öGV7BÖFWF–ÂÖ6÷’#à¢Æƒ3äÖ¶R6f–ærfVVÂ÷76–&ÆSÂöƒ3à¢Çå6WBvöÂF†BÖGFW'2Fò–÷RæB¶VW—Bf—6–&ÆRÆöæw6–FRWfW'–F’7VæF–ærâ6ÖÆÂÂ6öç6—7FVçB&V6÷&G2Ö¶R&öw&W72V6–W"Fò6VRãÂ÷à¢ÂöF—cà¢Âö'F–6ÆSà¢ÂöF—cà¢ÂöF—cà¢Â÷6V7F–öãà¢“°§Ğ
+                The application supports financial tracking that empowers users to monitor their ongoing progress toward specific savings milestones.
+              </p>
+              <p className="doc-p">
+                Users can define financial goals and monitor their accumulated reserves while keeping daily expenses disciplined. For instance, a student can set a target to save for new school equipment or an emergency fund, managing their saving rate directly alongside daily expenditures.
+              </p>
+              {renderCardFooter()}
+            </article>
+          )}
+
+          {/* 11. Exporting Data */}
+          {activeSection === "export" && (
+            <article id="export" className="doc-card doc-card-active">
+              <div className="doc-card-head">
+                <h3 className="doc-card-title">Exporting Data (CSV)</h3>
+              </div>
+              <p className="doc-p">
+                The application features a built-in <strong>CSV export</strong> utility, allowing users to extract their transaction records for external archiving or spreadsheet analysis in Microsoft Excel, Google Sheets, or Apple Numbers.
+              </p>
+              <ol className="doc-steps">
+                <li><span>Open the transaction or data management screen.</span></li>
+                <li><span>Select the <strong>Export CSV</strong> option.</span></li>
+                <li><span>The application compiles all expense records into standardized CSV format.</span></li>
+                <li><span>Save or share the file to local device storage or external apps.</span></li>
+              </ol>
+              {renderCardFooter()}
+            </article>
+          )}
+
+          {/* 13. Logging Out */}
+          {activeSection === "logout" && (
+            <article id="logout" className="doc-card doc-card-active">
+              <div className="doc-card-head">
+                <h3 className="doc-card-title">Logging Out</h3>
+              </div>
+              <p className="doc-p">
+                When finished using the application, users can securely end their session.
+              </p>
+              <ol className="doc-steps">
+                <li><span>Open the account or settings section.</span></li>
+                <li><span>Select <strong>Log Out</strong>.</span></li>
+                <li><span>Confirm the logout prompt.</span></li>
+                <li><span>The application clears the active session and returns to the welcome screen.</span></li>
+              </ol>
+              {renderCardFooter()}
+            </article>
+          )}
+
+          {/* 14. Recommended Usage */}
+          {activeSection === "recommended" && (
+            <article id="recommended" className="doc-card doc-card-active">
+              <div className="doc-card-head">
+                <h3 className="doc-card-title">Recommended Usage Practices</h3>
+              </div>
+              <div className="doc-features-list">
+                <div className="doc-feature-item">
+                  <CheckCircle2 size={15} className="feature-check" />
+                  <span>Record expenses immediately after spending to ensure 100% accuracy.</span>
+                </div>
+                <div className="doc-feature-item">
+                  <CheckCircle2 size={15} className="feature-check" />
+                  <span>Assign the correct category to every transaction for actionable reports.</span>
+                </div>
+                <div className="doc-feature-item">
+                  <CheckCircle2 size={15} className="feature-check" />
+                  <span>Review spending reports regularly at the end of each week.</span>
+                </div>
+                <div className="doc-feature-item">
+                  <CheckCircle2 size={15} className="feature-check" />
+                  <span>Set realistic budgets that account for unexpected daily needs.</span>
+                </div>
+                <div className="doc-feature-item">
+                  <CheckCircle2 size={15} className="feature-check" />
+                  <span>Monitor savings progress weekly to stay motivated toward financial goals.</span>
+                </div>
+                <div className="doc-feature-item">
+                  <CheckCircle2 size={15} className="feature-check" />
+                  <span>Export important financial records to CSV periodically.</span>
+                </div>
+              </div>
+              {renderCardFooter()}
+            </article>
+          )}
+
+          {/* 15. Example of Daily Usage */}
+          {activeSection === "daily-example" && (
+            <article id="daily-example" className="doc-card doc-card-active">
+              <div className="doc-card-head">
+                <h3 className="doc-card-title">Example of Daily Usage</h3>
+              </div>
+              <p className="doc-p">
+                Consider a student who receives a daily allowance of <strong>â‚±500</strong> and records their day's expenses:
+              </p>
+
+              <div className="doc-table-wrap">
+                <table className="doc-table">
+                  <thead>
+                    <tr>
+                      <th>Expense Item</th>
+                      <th>Category</th>
+                      <th className="text-right">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Breakfast</td>
+                      <td><span className="table-badge">Food</span></td>
+                      <td className="text-right">â‚±50</td>
+                    </tr>
+                    <tr>
+                      <td>Transportation</td>
+                      <td><span className="table-badge">Transport</span></td>
+                      <td className="text-right">â‚±80</td>
+                    </tr>
+                    <tr>
+                      <td>Lunch</td>
+                      <td><span className="table-badge">Food</span></td>
+                      <td className="text-right">â‚±100</td>
+                    </tr>
+                    <tr>
+                      <td>School Supplies</td>
+                      <td><span className="table-badge">Education</span></td>
+                      <td className="text-right">â‚±70</td>
+                    </tr>
+                    <tr className="table-total-row">
+                      <td colSpan={2}><strong>Total Daily Expenses</strong></td>
+                      <td className="text-right total-amount"><strong>â‚±300</strong></td>
+                    </tr>
+                    <tr className="table-savings-row">
+                      <td colSpan={2}><strong>Remaining for Savings</strong></td>
+                      <td className="text-right savings-amount"><strong>â‚±200</strong></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <p className="doc-p" style={{ marginTop: "14px" }}>
+                By consistently logging daily micro-expenses, the user identifies exactly where the â‚±300 went and sets aside the remaining â‚±200 toward their savings goal.
+              </p>
+              {renderCardFooter()}
+            </article>
+          )}
+
+          {/* 16. Summary */}
+          {activeSection === "summary" && (
+            <article id="summary" className="doc-card doc-summary-card doc-card-active">
+              <div className="doc-card-head">
+                <h3 className="doc-card-title">Summary</h3>
+              </div>
+              <p className="doc-p">
+                <strong>Smart Spending & Savings Tracker</strong> provides a simple, structured way to record expenses, monitor spending, manage budgets, review financial activity, and develop better saving habits.
+              </p>
+              <p className="doc-p">
+                By using the application regularly, users can become more conscious of where their money goes and make more organized, empowered financial decisions.
+              </p>
+              <p className="doc-p">
+                Your account and expenses can follow you across signed-in devices through Supabase, while custom categories and preferences remain on the device in this version.
+              </p>
+              <div className="doc-motto-box">
+                <p className="doc-motto">
+                  "Track your spending. Manage your budget. Build better saving habits."
+                </p>
+              </div>
+              {renderCardFooter()}
+            </article>
+          )}
+        </div>
+        </div>
+      </div>
+    </section>
+  );
+}
